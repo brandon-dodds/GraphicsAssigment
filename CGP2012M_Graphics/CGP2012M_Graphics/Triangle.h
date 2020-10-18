@@ -2,22 +2,39 @@
 #include <GL/glew.h>
 #include <array>
 #include <ctime>
+#include "ShaderClass.h"
 
 class Triangle
 {
 public:
 	
+	Shader vSh1, fSh1;
+	GLuint shaderProgram1;
 
 	//constructor
 	Triangle()
 	{
+		//set up shaders for the triangle
+		vSh1.shaderFileName("..//..//Assets//Shaders//shader_time.vert");
+		fSh1.shaderFileName("..//..//Assets//Shaders//shader_time.frag");
+
+		vSh1.getShader(1);
+		fSh1.getShader(2);
+
+		shaderProgram1 = glCreateProgram();
+		glAttachShader(shaderProgram1, vSh1.shaderID);
+		glAttachShader(shaderProgram1, fSh1.shaderID);
+		glLinkProgram(shaderProgram1);
+
+		glDeleteShader(vSh1.shaderID);
+		glDeleteShader(fSh1.shaderID);
 	}
 
 	//define vertices for the triangle
-	GLfloat vertices[9] = {
-		-0.5f, -0.5f, 0.0f,	
-		-0.5f,  0.5f, 0.0f,	
-		0.0f, 0.0f, 0.0f
+	GLfloat vertices[18] = {
+		-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f, 0.0f,	 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,    0.0f, 0.0f, 1.0f
 
 	};
 
@@ -46,8 +63,8 @@ public:
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 		glEnableVertexAttribArray(0);
 		//colours
-		//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-		//glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(1);
 		//texture coords
 		//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 		//glEnableVertexAttribArray(2);

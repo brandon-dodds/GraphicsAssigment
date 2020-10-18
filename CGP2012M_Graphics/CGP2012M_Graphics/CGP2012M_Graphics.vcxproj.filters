@@ -21,9 +21,24 @@
     <ClInclude Include="ShaderClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_Start.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLerror.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle_T.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CGP3018M_Source_1.cpp">
+    <ClCompile Include="Week2_Uniform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

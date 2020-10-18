@@ -19,19 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="GLerror.h" />
+    <ClInclude Include="SDL_Start.h" />
     <ClInclude Include="ShaderClass.h" />
+    <ClInclude Include="TextureClass.h" />
     <ClInclude Include="Triangle.h" />
+    <ClInclude Include="Triangle_T.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CGP3018M_Source_1.cpp" />
+    <ClCompile Include="Week2_Uniform.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FC49E162-563D-4E4A-B6F1-5EB920162ED6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CGP3018M_Graphics</RootNamespace>
+    <RootNamespace>CGP2012M_Graphics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>CGP3018M_Graphics</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -102,7 +106,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)..\External Libraries\SDL2-2.0.9\lib\x86;$(SolutionDir)..\External Libraries\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;glew32.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
