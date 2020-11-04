@@ -5,6 +5,7 @@ in vec3 normals;
 in vec3 fragmentPosition;
 in vec3 lightColour;
 in vec3 lightPosition;
+in vec3 viewPosition;
 in float time;
 
 uniform sampler2D aTex;		//uniform holding texture info from main programme
@@ -34,20 +35,25 @@ void main()
 	//set the diffuse coeff from material
 	vec3 objectDiffuseReflectionCoeff = vec3(1.0f, 1.0f, 1.0f);
     vec3 diffuse = (diffuseStrength * objectDiffuseReflectionCoeff) * lightColour;
+	
+	//specular component
+	//**********************************
+	float specularStrength = 0.9f;
+	vec3 viewDirection = normalize(viewPosition - fragmentPosition);
+    vec3 reflectDirection = reflect(-lightDirection, nNormal); 
+	float sp = pow(max(dot(viewDirection, reflectDirection), 0.0), 8);
+    vec3 specular = specularStrength * sp * lightColour; 
 
 	
-	//vec2 point = textureCoordinate.xy;
-	//point.x += cos(textureCoordinate.y)*(1.0 - abs(cos(time/1000.0)));
-	//point.y += cos(textureCoordinate.x)*(1.0 - abs(cos(time/1000.0)));
-	
 	vec4 textureColour = texture(aTex, textureCoordinate);
-	//vec4 textureColour = texture(aTex, point);
 	
 	//apply no lighting, ambient and diffuse components with colour contributed by texture
-	gl_FragColor = (textureColour);
-	//gl_FragColor = (vec4((lightColour), 1.0) * textureColour);
-	//gl_FragColor = (vec4((ambient),1.0) * textureColour);
-	//gl_FragColor = (vec4((ambient+diffuse),1.0) * textureColour);
+	//vertColour = (textureColour);
+	//vertColour = textureColour;
+	//vertColour = (vec4((lightColour), 1.0) * textureColour);
+	//vertColour = (vec4((ambient),1.0) * textureColour);
+	//vertColour = (vec4((ambient+diffuse),1.0) * textureColour);
+	vertColour = (vec4((ambient+diffuse+specular),1.0) * textureColour);
 	
 	
 }

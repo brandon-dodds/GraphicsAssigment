@@ -1,6 +1,5 @@
 #version 440 core
 layout (location = 0) in vec3 Position; //vertex positions
-//layout (location=1) in vec3 vertexColours;  //vertex colours
 layout (location=1) in vec2 texCoord;	//tex coords
 layout (location=2) in vec3 normal;	// vertex normals
 
@@ -10,14 +9,18 @@ out vec3 normals;
 out vec3 fragmentPosition;
 out vec3 lightColour;
 out vec3 lightPosition;
+out vec3 viewPosition;
 out float time;
 
 uniform mat4 uNormalMatrix;
 uniform mat4 uModel;
 uniform mat4 uView;
 uniform mat4 uProjection;
+uniform vec3 uLightColour;
+uniform vec3 uAmbientIntensity;
 uniform vec3 lightCol;
-uniform vec3 lightPos;
+uniform vec3 uLightPosition;
+uniform vec3 uViewPosition;
 uniform float uTime; 
 
 
@@ -38,8 +41,9 @@ void main()
 	//calculate a 'normal matrix' and multiply by the unmodified normal
 	normals = mat3(uNormalMatrix) * normal;
 	
-	lightColour = lightCol;
-	lightPosition = lightPos;
+	lightColour = uLightColour;
+	lightPosition = uLightPosition;
+	viewPosition = uViewPosition;
 	time = uTime;
 
 }

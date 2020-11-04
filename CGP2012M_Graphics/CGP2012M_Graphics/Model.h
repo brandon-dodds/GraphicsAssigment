@@ -31,10 +31,10 @@ public:
 	Model() 
 	{
 		//shaders
-		//vSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_basicLight.vert");
-		//fSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_basicLight.frag");
-		vSh.shaderFileName("..//..//Assets//Shaders//shader_projection_lighting_AD.vert");
-		fSh.shaderFileName("..//..//Assets//Shaders//shader_projection_lighting_AD.frag");
+		vSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_lighting_ADS.vert");
+		fSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_lighting_ADS.frag");
+		//vSh.shaderFileName("..//..//Assets//Shaders//shader_projection_lighting_PBR.vert");
+		//fSh.shaderFileName("..//..//Assets//Shaders//shader_projection_lighting_PBR.frag");
 
 		vSh.getShader(1);
 		fSh.getShader(2);

@@ -20,6 +20,8 @@ public:
 	Square() 
 	{
 		//shaders
+		//vSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_waves.vert");
+		//fSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_waves.frag");
 		vSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_basicLight.vert");
 		fSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_basicLight.frag");
 

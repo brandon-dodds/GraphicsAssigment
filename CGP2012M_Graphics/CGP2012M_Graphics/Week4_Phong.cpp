@@ -72,6 +72,8 @@ glm::mat4 modelMatrix;
 glm::mat4 viewMatrix;
 glm::mat4 projectionMatrix;
 
+glm::mat4 normalMatrix;
+
 glm::mat4 translate;
 glm::mat4 rotate;
 glm::mat4 scale;
@@ -95,6 +97,7 @@ glm::vec3 camTarget;
 bool flag = true;
 
 glm::vec3 lightCol;
+glm::vec3 lightPos;
 float ambientIntensity;
 
 //**************
@@ -184,6 +187,9 @@ int main(int argc, char *argv[]) {
 	int ambientIntensityLocation;
 	int modelColourLocation;
 	int modelAmbientLocation;
+	int modelLightPosLocation;
+	int normalMatrixLocation;
+	int viewPositionLocation;
 	int timeLocation;
 	int srLocation;
 
@@ -196,9 +202,12 @@ int main(int argc, char *argv[]) {
 	std::cout << w << " " << h << std::endl;
 
 	//light colour initial setting
-	lightCol = glm::vec3(1.0f, 1.0f, 1.0f);
+	lightCol = glm::vec3(1.0f, 0.9f, 0.95f);
+	//light position
+	lightPos = glm::vec3(2.0f, 0.0, 2.0f);
 	//light distance setting
 	ambientIntensity = 1.0f;
+
 
 	//initialise transform matrices 
 	//orthographic (2D) projection
@@ -276,16 +285,18 @@ int main(int argc, char *argv[]) {
 		//screen resolution
 		//srLocation = glGetUniformLocation(background.shaderProgram, "uSr");
 		//glProgramUniform2fv(background.shaderProgram, srLocation,1, screen);
-
-
 		glBindTexture(GL_TEXTURE_2D, texArray[0].texture);
 		background.render();
+
 
 		//set .obj model
 		glUseProgram(model.shaderProgram);
 		//set sphere lighting
 		modelColourLocation = glGetUniformLocation(model.shaderProgram, "uLightColour");
 		glProgramUniform3fv(model.shaderProgram, modelColourLocation, 1, glm::value_ptr(lightCol));
+		//light position
+		modelLightPosLocation = glGetUniformLocation(model.shaderProgram, "uLightPosition");
+		glProgramUniform3fv(model.shaderProgram, modelLightPosLocation, 1, glm::value_ptr(lightPos));
 		//light distance
 		modelAmbientLocation = glGetUniformLocation(model.shaderProgram, "uAmbientIntensity");
 		glProgramUniform1f(model.shaderProgram, modelAmbientLocation, ambientIntensity);
@@ -297,6 +308,15 @@ int main(int argc, char *argv[]) {
 		glUniformMatrix4fv(importViewLocation, 1, GL_FALSE, glm::value_ptr(cam.viewMatrix));
 		importProjectionLocation = glGetUniformLocation(model.shaderProgram, "uProjection");
 		glUniformMatrix4fv(importProjectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
+		normalMatrix = (glm::mat3)glm::transpose(glm::inverse(modelTranslate * modelRotate * modelScale));
+		//set the normalMatrix in the shaders
+		normalMatrixLocation = glGetUniformLocation(model.shaderProgram, "uNormalMatrix");
+		glUniformMatrix4fv(normalMatrixLocation, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+
+		//set view position for specular component - use the camera position
+		viewPositionLocation = glGetUniformLocation(model.shaderProgram, "uViewPosition");
+		glProgramUniform3fv(model.shaderProgram, viewPositionLocation, 1, glm::value_ptr(cam.cameraPosition ));
 		
 
 		glBindTexture(GL_TEXTURE_2D, texArray[1].texture);

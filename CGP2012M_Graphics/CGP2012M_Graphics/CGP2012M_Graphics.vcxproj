@@ -37,7 +37,7 @@
     <ClInclude Include="Triangle_T.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Week3_3D.cpp" />
+    <ClCompile Include="Week4_Phong.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
