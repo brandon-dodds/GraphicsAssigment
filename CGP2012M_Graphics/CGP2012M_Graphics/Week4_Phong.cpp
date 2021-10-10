@@ -14,6 +14,7 @@
 #include "Cube.h"
 #include "Model.h"
 #include "ModelLoaderClass.h"
+#include "SkyBox.h"
 #ifndef TEXTURECLASS_H
 #define TEXTURECLASS_H
 #ifndef SHADERCLASS_H
@@ -148,6 +149,8 @@ int main(int argc, char *argv[]) {
 	//objects
 	//create background square
 	Square background;
+	//create SkyBox
+	SkyBox sb;
 	//create model
 	//could make this better by specifying the texture in this model header
 	Model model;
@@ -169,8 +172,12 @@ int main(int argc, char *argv[]) {
 
 	errorLabel = 2;
 
+	//load skybox textures
+	sb.loadSkyBox();
+
 	//OpenGL buffers
 	background.setBuffers();
+	sb.setBuffers();
 	model.setBuffers();
 
 	errorLabel = 3;
@@ -263,31 +270,38 @@ int main(int argc, char *argv[]) {
 
 		errorLabel = 5;
 		//background
-		glUseProgram(background.shaderProgram);
+		//glUseProgram(background.shaderProgram);
 
 		//set background lighting
-		backgroundColourLocation = glGetUniformLocation(background.shaderProgram, "uLightColour");
-		glProgramUniform3fv(background.shaderProgram, backgroundColourLocation, 1, glm::value_ptr(lightCol));
+		//backgroundColourLocation = glGetUniformLocation(background.shaderProgram, "uLightColour");
+		//glProgramUniform3fv(background.shaderProgram, backgroundColourLocation, 1, glm::value_ptr(lightCol));
 		//light distance
-		ambientIntensityLocation = glGetUniformLocation(background.shaderProgram, "uAmbientIntensity");
-		glProgramUniform1f(background.shaderProgram, ambientIntensityLocation, ambientIntensity);
+		//ambientIntensityLocation = glGetUniformLocation(background.shaderProgram, "uAmbientIntensity");
+		//glProgramUniform1f(background.shaderProgram, ambientIntensityLocation, ambientIntensity);
 
 		//set background image
-		modelLocation = glGetUniformLocation(background.shaderProgram, "uModel");
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(backgroundTranslate*backgroundScale));
-		viewLocation = glGetUniformLocation(background.shaderProgram, "uView");
-		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(cam.viewMatrix));
-		projectionLocation = glGetUniformLocation(background.shaderProgram, "uProjection");
-		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+		//modelLocation = glGetUniformLocation(background.shaderProgram, "uModel");
+		//glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(backgroundTranslate*backgroundScale));
+		//viewLocation = glGetUniformLocation(background.shaderProgram, "uView");
+		//glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(cam.viewMatrix));
+		//projectionLocation = glGetUniformLocation(background.shaderProgram, "uProjection");
+		//glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 		//time
 		//timeLocation = glGetUniformLocation(background.shaderProgram, "uTime");
 		//glProgramUniform1f(background.shaderProgram, timeLocation, currentTime);
 		//screen resolution
 		//srLocation = glGetUniformLocation(background.shaderProgram, "uSr");
 		//glProgramUniform2fv(background.shaderProgram, srLocation,1, screen);
-		glBindTexture(GL_TEXTURE_2D, texArray[0].texture);
-		background.render();
-
+		//glBindTexture(GL_TEXTURE_2D, texArray[0].texture);
+		//background.render();
+		glUseProgram(sb.sbShaderProgram);
+		modelLocation = glGetUniformLocation(sb.sbShaderProgram, "uModel");
+		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+		viewLocation = glGetUniformLocation(sb.sbShaderProgram, "uView");
+		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(cam.viewMatrix));
+		projectionLocation = glGetUniformLocation(sb.sbShaderProgram, "uProjection");
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+		sb.renderSkyBox();
 
 		//set .obj model
 		glUseProgram(model.shaderProgram);

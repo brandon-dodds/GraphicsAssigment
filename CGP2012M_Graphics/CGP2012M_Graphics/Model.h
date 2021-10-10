@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <vector>
+#include "ShaderClass.h"
 
 class Model
 {
@@ -30,11 +31,9 @@ public:
 	//constructor
 	Model() 
 	{
-		//shaders
+		//shaders applied to the model
 		vSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_lighting_ADS.vert");
 		fSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_lighting_ADS.frag");
-		//vSh.shaderFileName("..//..//Assets//Shaders//shader_projection_lighting_PBR.vert");
-		//fSh.shaderFileName("..//..//Assets//Shaders//shader_projection_lighting_PBR.frag");
 
 		vSh.getShader(1);
 		fSh.getShader(2);
