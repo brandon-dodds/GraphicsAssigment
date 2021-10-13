@@ -273,6 +273,10 @@ int main(int argc, char *argv[]) {
 		glUniformMatrix4fv(importViewLocation, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 		importProjectionLocation = glGetUniformLocation(models[1].shaderProgram, "uProjection");
 		glUniformMatrix4fv(importProjectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
+		//time
+		timeLocation = glGetUniformLocation(models[1].shaderProgram, "uTime");
+		glProgramUniform1f(models[1].shaderProgram, timeLocation, currentTime);
 		
 		//set normal matrix for the plane
 		normalMatrix = (glm::mat3)glm::transpose(glm::inverse(glm::mat4(1.0f)));
@@ -308,6 +312,10 @@ int main(int argc, char *argv[]) {
 		glUniformMatrix4fv(importViewLocation, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 		importProjectionLocation = glGetUniformLocation(models[0].shaderProgram, "uProjection");
 		glUniformMatrix4fv(importProjectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
+		//time
+		timeLocation = glGetUniformLocation(models[0].shaderProgram, "uTime");
+		glProgramUniform1f(models[0].shaderProgram, timeLocation, currentTime);
 
 		//set norml matrix for the sphere
 		normalMatrix = (glm::mat3)glm::transpose(glm::inverse(modelTranslate * modelRotate * modelScale));

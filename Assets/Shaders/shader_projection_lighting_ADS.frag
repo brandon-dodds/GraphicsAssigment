@@ -12,6 +12,8 @@ uniform sampler2D aTex;		//uniform holding texture info from main programme
 
 
 
+
+
 void main()
 {
 	//ambient component
@@ -44,7 +46,7 @@ void main()
 	float sp = pow(max(dot(viewDirection, reflectDirection), 0.0), 8);
     vec3 specular = specularStrength * sp * lightColour; 
 
-	
+
 	vec4 textureColour = texture(aTex, textureCoordinate);
 	
 	//apply no lighting, ambient and diffuse components with colour contributed by texture
