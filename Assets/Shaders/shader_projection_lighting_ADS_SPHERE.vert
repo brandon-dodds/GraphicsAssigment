@@ -11,6 +11,7 @@ out vec3 lightColour;
 out vec3 lightPosition;
 out vec3 viewPosition;
 out float time;
+out vec3 position;
 
 uniform mat4 uNormalMatrix;
 uniform mat4 uModel;
@@ -24,14 +25,17 @@ uniform vec3 uViewPosition;
 uniform float uTime; 
 
 
+
 void main()
 {
-	
-	gl_Position = uProjection * uView * uModel * vec4(Position.x, Position.y, Position.z, 1.0); 					
+
+	// vertex positions
+	gl_Position = uProjection * uView * uModel * vec4(Position.x, Position.y, Position.z, 1.0); 						
 	textureCoordinate = vec2(texCoord.x, 1 - texCoord.y);
 	
 	//get the fragment position in world coordinates as this is where the lighting will be calculated
 	fragmentPosition = vec3(uModel * vec4(Position, 1.0f));
+	//fragmentPosition = vec3(uModel * vec4(pos, 1.0f));
 	
 	
 	//pass the normals to the fragment shader unmodified
@@ -41,9 +45,11 @@ void main()
 	//calculate a 'normal matrix' and multiply by the unmodified normal
 	normals = mat3(uNormalMatrix) * normal;
 	
+	
 	lightColour = uLightColour;
 	lightPosition = uLightPosition;
 	viewPosition = uViewPosition;
 	time = uTime;
+	//position = pos;
 
 }

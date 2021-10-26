@@ -31,9 +31,14 @@ public:
 	//constructor
 	Model() 
 	{
+		
+	};
+
+	void setShader(const char* VshaderName, const char* FshaderName)
+	{
 		//shaders applied to the model
-		vSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_lighting_ADS.vert");
-		fSh.shaderFileName("..//..//Assets//Shaders//shader_Projection_lighting_ADS.frag");
+		vSh.shaderFileName(VshaderName);
+		fSh.shaderFileName(FshaderName);
 
 		vSh.getShader(1);
 		fSh.getShader(2);
@@ -45,7 +50,7 @@ public:
 
 		glDeleteShader(vSh.shaderID);
 		glDeleteShader(fSh.shaderID);
-	};
+	}
 
 
 

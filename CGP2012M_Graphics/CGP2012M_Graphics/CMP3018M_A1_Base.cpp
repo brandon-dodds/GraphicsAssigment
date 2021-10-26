@@ -67,6 +67,7 @@ glm::mat4 modelRotate;
 glm::mat4 modelScale;
 glm::mat4 modelTranslate;
 glm::mat4 planeTranslate;
+glm::mat4 planeScale;
 glm::vec2 screenSize;
 float angle = 0;
 
@@ -151,7 +152,7 @@ int main(int argc, char *argv[]) {
 	//load sphere
 	modelLoader.LoadOBJ2("..//..//Assets//Models//blenderSphere.obj", models[0].vertices, models[0].texCoords, models[0].normals, models[0].indices);
 	//load plane
-	modelLoader.LoadOBJ2("..//..//Assets//Models//blenderPlane.obj", models[1].vertices, models[1].texCoords, models[1].normals, models[1].indices);
+	modelLoader.LoadOBJ2("..//..//Assets//Models//blenderPlane16x16.obj", models[1].vertices, models[1].texCoords, models[1].normals, models[1].indices);
 	errorLabel = 0;
 
 	//*********************
@@ -159,15 +160,20 @@ int main(int argc, char *argv[]) {
 	//create textures - space for 4, but only using 2
 	Texture texArray[4];
 	//background texture
-	texArray[0].load("..//..//Assets//Textures//chequer.jpg");
+	texArray[0].load("..//..//Assets//Textures//terrain.png ");
 	texArray[0].setBuffers();
-	texArray[1].load("..//..//Assets//Textures//Silver.jpg");
+	texArray[1].load("..//..//Assets//Textures//deathstar.png");
 	texArray[1].setBuffers();
 
 	errorLabel = 2;
 
 	//load skybox textures
 	sb.loadSkyBox();
+
+	//set shaders
+	//1: plane, 0:sphere
+	models[1].setShader("..//..//Assets//Shaders//shader_Projection_lighting_ADS_PLANE.vert", "..//..//Assets//Shaders//shader_Projection_lighting_ADS_PLANE.frag");
+	models[0].setShader("..//..//Assets//Shaders//shader_Projection_lighting_ADS_SPHERE.vert", "..//..//Assets//Shaders//shader_Projection_lighting_ADS_SPHERE.frag");
 
 	//OpenGL buffers
 	sb.setBuffers();
@@ -216,15 +222,18 @@ int main(int argc, char *argv[]) {
 	modelRotate = glm::mat4(1.0f);
 	modelTranslate = glm::mat4(1.0f);
 	planeTranslate = glm::mat4(1.0f);
+	planeScale = glm::mat4(1.0f);
 	
 
 	//translate imported model away from the camera
 	modelTranslate = glm::translate(modelTranslate, glm::vec3(0.0f, 0.0f, -1.0f));
 	//translate imported plane down the Y axis
-	planeTranslate = glm::translate(planeTranslate, glm::vec3(0.0f, -1.0f, 0.0f));
+	planeTranslate = glm::translate(planeTranslate, glm::vec3(0.0f, -0.5f, 0.0f));
 
-	//once only scale to model = make models smaller
-	modelScale = glm::scale(modelScale, glm::vec3(0.5f, 0.5f, 0.5f));
+	//once only scale to model = make sphere smaller
+	modelScale = glm::scale(modelScale, glm::vec3(0.3f, 0.3f, 0.3f));
+	//planeScale to make plane larger
+	planeScale = glm::scale(modelScale, glm::vec3(4.0f, 4.0f, 4.0f));
 	errorLabel = 4;
 
 	//*****************************
@@ -268,7 +277,7 @@ int main(int argc, char *argv[]) {
 		glProgramUniform1f(models[1].shaderProgram, modelAmbientLocation, ambientIntensity);
 		
 		importModelLocation = glGetUniformLocation(models[1].shaderProgram, "uModel");
-		glUniformMatrix4fv(importModelLocation, 1, GL_FALSE, glm::value_ptr(planeTranslate));
+		glUniformMatrix4fv(importModelLocation, 1, GL_FALSE, glm::value_ptr(planeTranslate*planeScale));
 		importViewLocation = glGetUniformLocation(models[1].shaderProgram, "uView");
 		glUniformMatrix4fv(importViewLocation, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 		importProjectionLocation = glGetUniformLocation(models[1].shaderProgram, "uProjection");
@@ -305,7 +314,7 @@ int main(int argc, char *argv[]) {
 		modelAmbientLocation = glGetUniformLocation(models[0].shaderProgram, "uAmbientIntensity");
 		glProgramUniform1f(models[0].shaderProgram, modelAmbientLocation, ambientIntensity);
 		//rotation
-		modelRotate = glm::rotate(modelRotate, (float)elapsedTime / 2000, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelRotate = glm::rotate(modelRotate, (float)elapsedTime / 6000, glm::vec3(0.0f, 1.0f, 0.0f));
 		importModelLocation = glGetUniformLocation(models[0].shaderProgram, "uModel");
 		glUniformMatrix4fv(importModelLocation, 1, GL_FALSE, glm::value_ptr(modelTranslate*modelRotate*modelScale));
 		importViewLocation = glGetUniformLocation(models[0].shaderProgram, "uView");
