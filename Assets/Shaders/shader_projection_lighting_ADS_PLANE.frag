@@ -48,7 +48,25 @@ void main()
 	
 
 	vec4 textureColour = texture(aTex, textureCoordinate);
-	vertColour = vec4((ambient+diffuse+specular),1.0) * textureColour;
+	vec3 pos = vec3(0.0);
+	pos = position;
+	
+	/*
+	if(pos.y < -0.0)
+	{
+			vertColour = vec4((ambient+diffuse+specular),1.0) * textureColour * vec4(0.0, 0.2, 0.9, 1.0);
+	}
+	if(pos.y >= -0.0)
+	{
+			vertColour = vec4((ambient+diffuse+specular),1.0) * textureColour ;
+	}
+	*/
+	vertColour = vec4((ambient+diffuse+specular),1.0) * textureColour ;	
+	
+
+	
+
+
 	
 	
 	//apply no lighting, ambient and diffuse components with colour contributed by texture

@@ -24,13 +24,51 @@ uniform vec3 uLightPosition;
 uniform vec3 uViewPosition;
 uniform float uTime; 
 
+// in: vec2 out:random float value
+//'fract()' returns only the fractional part of a value.
+//Deterministic - not really random
+//Introduce time to get progression
+float random (vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233)))* 43758.5453123  );
+}
+
+//Value noise function
+//in: vec2 out: float value
+float noiseFunction(vec2 st) {
+    vec2 d = vec2(0.0, 1.0);
+    vec2 b = floor(st);
+    vec2 f = smoothstep(vec2(0.0), vec2(1.0), fract(st));
+    
+return mix(mix(random(b), random(b + d.yx), f.x), mix(random(b + d.xy), random(b + d.yy), f.x), f.y);
+}
+
+
 
 void main()
 {
 	vec2 uv = texCoord;
+	uv *= 10.0;
 	
 	vec3 pos = Position;
-	gl_Position = uProjection * uView * uModel * vec4(pos.x, pos.y, pos.z, 1.0); 						
+	
+	float ovn = 1.0*(noiseFunction(uv ));
+    ovn += 1.0*(noiseFunction(uv   *2.0 )*0.5);
+    ovn +=  1.0*(noiseFunction(uv   *4.0 )*0.25);
+    ovn +=  1.0*(noiseFunction(uv   *8.0 )*0.125);
+	ovn +=  1.0*(noiseFunction(uv   *16.0 )*0.0625);
+    ovn +=  1.0*(noiseFunction(uv   *32.0 )*0.03125);
+	
+	
+
+	pos.y = (pos.y+(ovn/4.0))-(1.0-(sin(ovn))*1.0);
+	//pos.y = (pos.y+(ovn/4.0))-(1.0-(sin((ovn*uTime/1000.0)))*0.1);
+	
+	//pos.y =  pos.y + (0.5*sin(2.0 * uv.x + (uTime/1000.0)));
+	
+	
+
+	gl_Position = uProjection * uView * uModel * vec4(pos.x, pos.y, pos.z, 1.0); 
+						
 	textureCoordinate = vec2(texCoord.x, 1 - texCoord.y);
 	
 	//get the fragment position in world coordinates as this is where the lighting will be calculated

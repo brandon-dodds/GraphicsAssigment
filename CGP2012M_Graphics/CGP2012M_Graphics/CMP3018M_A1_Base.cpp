@@ -164,6 +164,9 @@ int main(int argc, char *argv[]) {
 	texArray[0].setBuffers();
 	texArray[1].load("..//..//Assets//Textures//deathstar.png");
 	texArray[1].setBuffers();
+	texArray[2].load("..//..//Assets//Textures//earthmap1k.png");
+	texArray[2].setBuffers();
+
 
 	errorLabel = 2;
 
@@ -199,6 +202,9 @@ int main(int argc, char *argv[]) {
 	int viewPositionLocation;
 	int timeLocation;
 	int srLocation;
+	int dsLocation;
+	int eLocation;
+
 
 	float screen[2] = { w, h }; 
 	std::cout << w << " " << h << std::endl;
@@ -233,7 +239,7 @@ int main(int argc, char *argv[]) {
 	//once only scale to model = make sphere smaller
 	modelScale = glm::scale(modelScale, glm::vec3(0.3f, 0.3f, 0.3f));
 	//planeScale to make plane larger
-	planeScale = glm::scale(modelScale, glm::vec3(4.0f, 4.0f, 4.0f));
+	planeScale = glm::scale(modelScale, glm::vec3(8.0f, 1.0f, 8.0f));
 	errorLabel = 4;
 
 	//*****************************
@@ -298,6 +304,7 @@ int main(int argc, char *argv[]) {
 		glProgramUniform3fv(models[1].shaderProgram, viewPositionLocation, 1, glm::value_ptr(camera.GetViewMatrix()));
 		errorLabel = 6;
 		//render
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texArray[0].texture);
 		models[1].render();
 		
@@ -335,8 +342,18 @@ int main(int argc, char *argv[]) {
 		//set view position for specular component - use the camera position
 		viewPositionLocation = glGetUniformLocation(models[0].shaderProgram, "uViewPosition");
 		glProgramUniform3fv(models[0].shaderProgram, viewPositionLocation, 1, glm::value_ptr(camera.GetViewMatrix()));
+
+		dsLocation = glGetUniformLocation(models[0].shaderProgram, "aTex");
+		glUniform1i(dsLocation, 1);
+		eLocation = glGetUniformLocation(models[0].shaderProgram, "aTex2");
+		glUniform1i(eLocation, 2);
+
 		//render
+		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texArray[1].texture);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, texArray[2].texture);
+
 		models[0].render();
 		errorLabel = 7;
 

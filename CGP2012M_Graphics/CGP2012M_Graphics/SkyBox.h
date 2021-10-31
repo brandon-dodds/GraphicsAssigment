@@ -15,6 +15,7 @@ public:
 	//shader for the skybox
 	Shader sbvSh, sbfSh;
 	GLuint sbShaderProgram;
+	int sbLocation;
 
 	GLfloat SkyBoxVertices[120]{
 		//vertices					//texture coords
@@ -112,8 +113,12 @@ public:
 	{
 		glDepthMask(0);
 		glBindVertexArray(sbVAO);
+
+		sbLocation = glGetUniformLocation(sbShaderProgram, "aTex3");
+		glUniform1i(sbLocation, 3);
 		for(int x = 0; x < 6; x++)
 		{
+			glActiveTexture(GL_TEXTURE3);
 			glBindTexture(GL_TEXTURE_2D, sbTextures[x].texture);
 			glDrawArrays(GL_TRIANGLE_STRIP, x * 4, 4);
 		}
