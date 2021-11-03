@@ -59,11 +59,9 @@ void main()
     ovn +=  1.0*(noiseFunction(uv   *32.0 )*0.03125);
 	
 	
-
+	//Alter the positions of the y coordinate of the vertices
+	//Use the noise function
 	pos.y = (pos.y+(ovn/4.0))-(1.0-(sin(ovn))*1.0);
-	//pos.y = (pos.y+(ovn/4.0))-(1.0-(sin((ovn*uTime/1000.0)))*0.1);
-	
-	//pos.y =  pos.y + (0.5*sin(2.0 * uv.x + (uTime/1000.0)));
 	
 	
 
@@ -88,6 +86,7 @@ void main()
 	lightPosition = uLightPosition;
 	viewPosition = uViewPosition;
 	time = uTime;
+	//Send the vertext position data to the fragment shader
 	position = pos;
 
 }
