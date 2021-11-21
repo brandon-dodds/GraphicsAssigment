@@ -110,10 +110,16 @@ void main()
     ovn += (cnoise(uv   *1024.0 )*0.03125);
 	
 	vec4 temp = mix(texture(aTex, uv), texture(aTex2, uv), abs(sin(ovn*abs(sin(time/1000.0)))));
-	//vertColour = vec4(temp);
+	vertColour = vec4(temp);
 	//vertColour = texture(aTex2, uv);
-	vertColour = vec4((ambient+diffuse+specular),1.0) * temp;
+	//vertColour = vec4((ambient+diffuse+specular),1.0) * temp;
 	//vertColour = vec4((ambient+diffuse+specular),1.0) * textureColour;
 	//vertColour = vec4((ambient+diffuse+specular)*ovn,1.0);
 	//vertColour = vec4(ovn*vec3(0.8,0.5,0.1)*(abs(sin(time/1000.0))+0.5), 1.0);
+	
+	
+
+	
+	
+	
 }
