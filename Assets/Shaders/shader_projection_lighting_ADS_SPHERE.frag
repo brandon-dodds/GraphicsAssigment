@@ -111,7 +111,7 @@ void main()
 	
 	vec3 colour = vec3(0.0);
     
-    float noise = abs(sin(ovn*abs(sin(time/100.0))));
+    float noise = abs(sin(ovn*abs(sin(ovn * time/100.0))));
     colour = texture(aTex,uv).rgb;
     
     float t = sin(time/1000.0);
