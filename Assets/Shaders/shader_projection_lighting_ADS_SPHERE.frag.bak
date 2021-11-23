@@ -109,23 +109,23 @@ void main()
     ovn += (cnoise(uv  *256.0 )*0.0625);
     ovn += (cnoise(uv   *1024.0 )*0.03125);
 	
-	vec3 pixel = vec3(0.0);
+	vec3 colour = vec3(0.0);
     
-    float noise = abs(sin(ovn*abs(sin(time/1000.0))));
-    pixel = texture(aTex,uv).rgb;
+    float noise = abs(sin(ovn*abs(sin(time/100.0))));
+    colour = texture(aTex,uv).rgb;
     
     float t = sin(time/1000.0);
-    float erosion = smoothstep(t-.2, t, noise);
+    float erosion = smoothstep(t-.9, t, noise);
     
     float border = smoothstep(0., .1, erosion) - smoothstep(.1, 1., erosion);
 
-    pixel = pixel * (1. - erosion) + erosion * texture(aTex2, uv).rgb;
+    colour = colour * (1. - erosion) + erosion * texture(aTex2, uv).rgb;
     
-    pixel = pixel + border * vec3(0., 1., 0.);
+    colour = colour + border * vec3(0.4, 0., 1.);
 	
 	//vertColour = vec4(temp);
 	//vertColour = texture(aTex2, uv);
-	vertColour = vec4((ambient+diffuse+specular),1.0) * vec4(pixel, 1.);
+	vertColour = vec4((ambient+diffuse+specular),1.0) * vec4(colour, 1.);
 	//vertColour = vec4((ambient+diffuse+specular),1.0) * textureColour;
 	//vertColour = vec4((ambient+diffuse+specular)*ovn,1.0);
 	//vertColour = vec4(ovn*vec3(0.8,0.5,0.1)*(abs(sin(time/1000.0))+0.5), 1.0);
