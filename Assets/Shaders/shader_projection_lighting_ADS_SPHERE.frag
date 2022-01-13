@@ -118,9 +118,7 @@ void main()
     float erosion = smoothstep(t-.5, t, noise);
     
     float border = smoothstep(0., .1, erosion) - smoothstep(.1, 1., erosion);
-
-    colour = colour * (1. - erosion) + erosion * texture(aTex2, uv).rgb;
-    
+    colour = mix(colour, texture(aTex2, uv).rgb, erosion);
     colour = colour + border * vec3(0.4, 0., 1.);
 	
 	//vertColour = vec4(temp);
